@@ -710,12 +710,20 @@ class HttpTransport(BaseHttpTransport):
         headers,
     ):
         # type: (Self, str, EndpointType, Any, Mapping[str, str]) -> urllib3.BaseHTTPResponse
-        return self._pool.request(
+        url = self._auth.get_api_url(endpoint_type)
+        print('[SENTRY http] make request')
+        print('[SENTRY http] method:', method)
+        print('[SENTRY http] endpoint_type:', url)
+        response = self._pool.request(
             method,
-            self._auth.get_api_url(endpoint_type),
+            url,
             body=body,
             headers=headers,
         )
+        print('[SENTRY http] response status:', response.status)
+        print('[SENTRY http] response headers:', response.headers)
+        print('[SENTRY http] response data:', response.data)
+        return response
 
 
 try:
@@ -760,12 +768,19 @@ else:
             headers,
         ):
             # type: (Self, str, EndpointType, Any, Mapping[str, str]) -> httpcore.Response
+            url = self._auth.get_api_url(endpoint_type)
+            print('[SENTRY] make request')
+            print('[SENTRY] method:', method)
+            print('[SENTRY] endpoint_type:', url)
             response = self._pool.request(
                 method,
-                self._auth.get_api_url(endpoint_type),
+                url,
                 content=body,
                 headers=headers,  # type: ignore
             )
+            print('[SENTRY] response status:', response.status)
+            print('[SENTRY] response headers:', response.headers)
+            print('[SENTRY] response data:', response.data)
             return response
 
         def _get_pool_options(self):
