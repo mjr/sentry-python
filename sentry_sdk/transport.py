@@ -714,6 +714,7 @@ class HttpTransport(BaseHttpTransport):
         print('[SENTRY http] make request')
         print('[SENTRY http] method:', method)
         print('[SENTRY http] endpoint_type:', url)
+        print('[SENTRY http] headers:', headers)
         response = self._pool.request(
             method,
             url,
@@ -772,6 +773,7 @@ else:
             print('[SENTRY] make request')
             print('[SENTRY] method:', method)
             print('[SENTRY] endpoint_type:', url)
+            print('[SENTRY] headers:', headers)
             response = self._pool.request(
                 method,
                 url,
